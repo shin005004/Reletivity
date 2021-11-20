@@ -21,7 +21,7 @@ public class AnimationController : MonoBehaviour
             animator.SetBool("isWalking", true);
             if (playerSpeed > lightSpeed * 0.1f)
             {
-                float multiplier = 5.0f / lightSpeed * playerSpeed;
+                float multiplier = 10.0f / lightSpeed * playerSpeed;
                 animator.SetFloat("runMultiplier", multiplier);
                 animator.SetBool("isRunning", true);
             }

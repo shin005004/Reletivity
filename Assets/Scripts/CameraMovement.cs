@@ -18,7 +18,7 @@ public class CameraMovement : MonoBehaviour
         Debug.Log("Camera up and running");
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         Vector3 moveCamTo = cameraTarget.transform.position + cameraTarget.transform.up * 10.0f;
 

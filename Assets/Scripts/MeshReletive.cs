@@ -10,13 +10,17 @@ public class MeshReletive : MonoBehaviour
     public Vector3 reletiveVector;
     public Vector3 reletiveSpeed;
 
-    // shows the direction forward
-    [Tooltip("For Debug purposes")] public bool onMeshUpdate = false;
+    public bool onMeshUpdate = false;
+    public bool onColorUpdate = false;
 
     private Mesh mesh;
+    private MeshRenderer meshRenderer;
     private Vector3[] originalVerticies;
 
-    public GameState gameState;
+    Color startColor;
+    Color stopColor;
+    float colorTime;
+    float playerGamma;
 
     private void Awake()
     {
@@ -27,8 +31,14 @@ public class MeshReletive : MonoBehaviour
             originalVerticies[i] = Vector3.Scale(originalVerticies[i], transform.localScale) + transform.position;
         mesh.MarkDynamic();
 
+        // color Logic
+        meshRenderer = GetComponent<MeshRenderer>();
+        colorTime = 0.0f;
+        startColor = Color.black;
+        stopColor = Color.white;
+
         // By default 
-        if(reletiveTarget!= null)
+        if (reletiveTarget!= null)
             reletiveTarget = GameObject.Find("Player");
         if (reletiveTarget == null)
             Debug.LogWarning(gameObject.name + "'s Reletive Target Not Found");
@@ -36,8 +46,28 @@ public class MeshReletive : MonoBehaviour
 
     private void Update()
     {
-        if(onMeshUpdate)
+        meshRenderer.enabled = true;
+        if (onMeshUpdate)
             UpdateMesh();
+        if (onColorUpdate)
+        {
+            ColorUpdate();
+            if(colorTime >= 1.0f)
+            {
+                colorTime = 0f;
+                Color temp = startColor;
+                startColor = stopColor;
+                stopColor = temp;
+            }
+        }
+            
+    }
+
+    private void ColorUpdate()
+    {
+        meshRenderer.material.color = Color.Lerp(startColor, stopColor, colorTime);
+        if (colorTime < 1)
+            colorTime += Time.deltaTime / 0.5f / playerGamma;
     }
 
     private float EvaluateGamma(float objectSpeed, float lightSpeed)
@@ -67,6 +97,7 @@ public class MeshReletive : MonoBehaviour
             Vector3 verticalVector = Vector3.Dot(reletiveVector, playerSpeed) / playerSpeed.magnitude * playerSpeed.normalized;
             Vector3 horizontalVector = reletiveVector - verticalVector;
 
+            playerGamma = EvaluateGamma(playerSpeed.magnitude, GameManager.gameManager.worldLS);
             newVerticies[i] = Vector3.Scale(reletiveTarget.transform.position + horizontalVector + verticalVector /
                 EvaluateGamma(playerSpeed.magnitude, GameManager.gameManager.worldLS) - transform.position, 
                 new Vector3(1.0f / transform.localScale.x, 1.0f / transform.localScale.y, 1.0f / transform.localScale.z));

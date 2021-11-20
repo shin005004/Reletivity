@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameState : MonoBehaviour
 {
@@ -186,6 +187,14 @@ public class GameState : MonoBehaviour
             worldRotation = CreateFromQuaternion(WorldOrientation);
             playerRotation += deltaRotation;
         }
+    }
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+    public void Restart()
+    {
+        SceneManager.LoadScene(2);
     }
 
     // Thanks Google
