@@ -10,11 +10,6 @@ public class Editor : MonoBehaviour
     public float objectScale = 1.0f;
     public GameObject[] gameObjects = new GameObject[3];
 
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {

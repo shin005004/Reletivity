@@ -5554,7 +5554,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "WASD\uB85C \uC6C0\uC9C1\uC774\uAE30\n\n\uCE74\uBA54\uB77C\uB85C \uC2DC\uC810
+  m_text: "WASD\uB85C \uC6C0\uC9C1\uC774\uAE30\n\n\uB9C8\uC6B0\uC2A4\uB85C \uC2DC\uC810
     \uBCC0\uD658\n\nN/M\uC73C\uB85C \uBE5B\uC758 \uC18D\uB3C4 \uC870\uC808\n\nESC
     \uBA54\uB274\n"
   m_isRightToLeft: 0

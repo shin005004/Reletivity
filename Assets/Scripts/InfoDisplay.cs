@@ -10,11 +10,6 @@ public class InfoDisplay : MonoBehaviour
     public TextMeshProUGUI gammaText;
     public GameState gameState;
 
-    void Start()
-    {
-       
-    }
-
     // Update is called once per frame
     void Update()
     {

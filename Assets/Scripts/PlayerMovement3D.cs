@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PlayerMovement3D : MonoBehaviour
 {
+	// 주석이 초기에 영어로 작성되어서 영어로 되어있습니다
+
 	//Consts 
 	private const float SLOW_DOWN_RATE = 2f;
 	private const float ACCEL_RATE = 20f;

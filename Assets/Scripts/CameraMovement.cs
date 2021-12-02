@@ -20,6 +20,7 @@ public class CameraMovement : MonoBehaviour
 
     private void LateUpdate()
     {
+        // 이런식으로 카메라를 움직이면 카메라가 플레이어의 속도를 반영된 것처럼 느껴지는 관성의 작용이 얼추 보이는 카메라 워크를 보일 수 있다.
         Vector3 moveCamTo = cameraTarget.transform.position + cameraTarget.transform.up * 10.0f;
 
         // spring method

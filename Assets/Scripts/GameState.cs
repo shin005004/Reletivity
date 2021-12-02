@@ -6,18 +6,22 @@ using UnityEngine.SceneManagement;
 
 public class GameState : MonoBehaviour
 {
-    private System.IO.TextWriter stateStream;
+    // 코드에서 중점적으로 사용하는 변수는 Important 안에 담겨있음
+    // 그외 다른 변수는 다른 스크립트에서 이용하는 상수이거나 알아보기 편하도록 존재하는 것들
 
     #region Important
     //Player's velocity in vector format
+    // 벡터 형식으로 플레이어의 속도를 저장함
     private Vector3 playerVelocityVector;
     // If game is paused
+    // 메뉴를 불렀을 때 사용하는 변수들
     public bool movementFrozen = false;
     public bool menuFrozen = false;
     private bool menuKeyDown = false;
     private bool spaceKeyDown = false;
 
     // Gamma (Update each Frame)
+    // 로렌츠 인자 값으로 매 프레임마다 계산하여 저장한다.
     [HideInInspector] public double sqrtOneMinusVSquaredCWDividedByCSquared;
     #endregion
 
@@ -74,6 +78,8 @@ public class GameState : MonoBehaviour
     public void Awake()
     {
         //Initialize the player's speed to zero
+        // 플레이어의 속도를 초기에 0으로 설정한다
+        // 그외는 모두 초기값 관련 설정들
         playerVelocityVector = Vector3.zero;
         playerVelocity = 0;
 
@@ -88,6 +94,8 @@ public class GameState : MonoBehaviour
     public void reset()
     {
         //Reset everything not level-based
+        // 다시 시작하는 경우 사용하는 함수
+        // Restart와 함께 사용된다
         playerRotation.x = 0;
         playerRotation.y = 0;
         playerRotation.z = 0;
@@ -97,6 +105,9 @@ public class GameState : MonoBehaviour
     // Pause/Unpause game
     public void ChangeMenuState()
     {
+        // If Paused set menuUI active and unlock cursor, freeze player
+        // else if resumed disable menuUi and lock cursor
+        // 메뉴의 활성화, 비활성화와 관련된 함수
         if (menuFrozen)
         {
             menuFrozen = false;
@@ -119,6 +130,8 @@ public class GameState : MonoBehaviour
     }
     public void ChangeState()
     {
+        // 단순히 움직임만을 제한하고 싶은 경우(스페이스바를 누른 경우) 이를 실행시킨다.
+        // 현재 플레이어의 속도는 다른 변수에 저장되어 있으므로 바꾸어주어도 상관없다.
         if (movementFrozen)
             movementFrozen = false;
         else
@@ -130,6 +143,7 @@ public class GameState : MonoBehaviour
 
     public void LateUpdate()
     {
+        // 메뉴를 띄웠는지 확인하는 함수
         if (Input.GetAxis("Menu Key") > 0 && !menuKeyDown)
         {
             menuKeyDown = true;
@@ -150,15 +164,18 @@ public class GameState : MonoBehaviour
         }
 
         // Update Everything
+        // 메뉴가 띄워져 있지 않으면 모든것을 업데이트한다
         if (!menuFrozen)
         {
             // keep at max speed
+            // 속도가 빛의 속도보다 큰경우, 아니면 최대 속도보다 큰경우 일정하게 유지시킴
             if (playerVelocityVector.magnitude >= (float)MaxSpeed - .01f)
                 playerVelocityVector = playerVelocityVector.normalized * ((float)MaxSpeed - .01f);
 
             playerVelocity = playerVelocityVector.magnitude;
 
             // calculate gamma
+            // 로렌츠 인자 업데이트
             sqrtOneMinusVSquaredCWDividedByCSquared = (double)Math.Sqrt(1 - (playerVelocity * playerVelocity) / cSqrd);
 
             deltaTimePlayer = (double)Time.deltaTime;
@@ -190,13 +207,16 @@ public class GameState : MonoBehaviour
     }
     public void LoadMainMenu()
     {
+        // Load Main Menu
         SceneManager.LoadScene(0);
     }
     public void Restart()
     {
+        // Restart
         SceneManager.LoadScene(2);
     }
 
+    // Quaternion을 만들기 위해서 사용하는 함수
     // Thanks Google
     #region Matrix/Quat math
     // This function takes in a quaternion and creates a rotation matrix from it

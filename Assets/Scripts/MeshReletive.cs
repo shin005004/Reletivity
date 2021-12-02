@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 public class MeshReletive : MonoBehaviour
 {
+    // MeshReletive3D 와 비슷하지만 오류를제거하기 위해서 조금만 변형된 스크립트이니 MeshReletive3D 참고
+
     [Header("Reletive to Player")]
     public GameObject reletiveTarget;
     public Vector3 reletiveVector;
